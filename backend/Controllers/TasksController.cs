@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
-
+using task_manager_api.DTO;
 using TaskManager.Models;
 using TaskManager.Data;
 namespace TaskManager.API
@@ -41,13 +41,19 @@ namespace TaskManager.API
         }
 
         [HttpPut("{id}")] 
-        public async Task<IActionResult> Update(int id, [FromBody] TaskItem updated)
+        public async Task<IActionResult> Update(int id, [FromBody] TaskUpdateDto updated)
         {
             var task = await _context.Tasks.FindAsync(id);
             if (task == null) return NotFound();
 
-            task.Title = updated.Title;
-            task.IsDone = updated.IsDone;
+            // Update the related fields only if those fields are present in the request body
+            
+            if (updated.Title != null)
+                task.Title = updated.Title;
+
+            if (updated.IsDone.HasValue)
+                task.IsDone = updated.IsDone.Value;
+            
             await _context.SaveChangesAsync();
 
             return Ok(task);
