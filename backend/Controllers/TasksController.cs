@@ -29,6 +29,11 @@ namespace TaskManager.API
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] TaskItem task)
         {
+            // Note: The UserId should NOT be set from the frontend request to avoid security risks.
+            // Instead, it should be assigned here based on the currently authenticated user.
+            // Implementing user retrieval from the auth context is beyond the current scope,
+            // so for now, we're defaulting UserId to 1. Ensure that a user with ID 1 exists in the database.
+            task.UserId = 1;
             
             _context.Tasks.Add(task);
             await _context.SaveChangesAsync();
