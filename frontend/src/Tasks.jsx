@@ -40,6 +40,17 @@ function Tasks() {
     }
   };
 
+
+  /* TODO:
+   * Implement update functionality for tasks
+   *
+   * Steps:
+   * 1. Create a function that accepts the task ID and the updated fields (e.g., title, isDone)
+   * 2. Add UI elements to edit task details
+   * 3. Send update request with the updated data to the backend API
+   */
+
+
   return (
     <div>
       <h2>Tasks</h2>
