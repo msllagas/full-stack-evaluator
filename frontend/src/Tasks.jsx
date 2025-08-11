@@ -30,6 +30,16 @@ function Tasks() {
     }
   }
 
+  const deleteTask = async (id) => {
+    try {
+      await api.delete(`/tasks/${id}`);
+      setTasks(tasks.filter(task => task.id !== id));
+      alert('Tasks deleted successfully');
+    } catch (error) {
+      alert('Error deleting task');
+    }
+  };
+
   return (
     <div>
       <h2>Tasks</h2>
@@ -47,13 +57,20 @@ function Tasks() {
        {tasks.length === 0 ? (
       <p>No tasks found.</p>
     ) : (
-      <ul>
-        {tasks.map(task => (
-          <li key={task.id}>
-            {task.title} {task.isDone ? '✅' : '❌'}
-          </li>
-        ))}
-      </ul>
+           <ul>
+             {tasks.map(task => (
+                 <li key={task.id}>
+                   {task.title}
+                   <span
+                       style={{cursor: 'pointer'}}
+                       onClick={() => deleteTask(task.id)}
+                       title="Delete task"
+                   >
+                  🗑️
+                  </span>
+                 </li>
+             ))}
+           </ul>
     )}
     </div>
   );
